@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Verte — Restaurante</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blanco:#ffffff;
+  --crema:#faf8f5;
+  --crema2:#f0ebe2;
+  --verde:#2d5a3d;
+  --verde2:#3d7a54;
+  --verde-pale:#e8f0ea;
+  --tierra:#8b6914;
+  --negro:#1a1a18;
+  --gris:#6b6b68;
+  --gris2:#d4d0c8;
+  --fd:'Libre Baskerville',serif;
+  --fb:'Inter',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--crema);color:var(--negro);overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--crema2);}
+::-webkit-scrollbar-thumb{background:var(--verde);}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;background:rgba(250,248,245,.95);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--gris2);
+}
+.nav-logo{text-decoration:none;}
+.nav-logo-name{font-family:var(--fd);font-size:20px;color:var(--negro);letter-spacing:.2px;}
+.nav-logo-tag{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--verde);margin-top:1px;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);text-decoration:none;transition:color .2s;font-weight:500;}
+.nav-links a:hover{color:var(--negro);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-res{background:var(--verde);color:#fff;padding:9px 20px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .2s;border:none;cursor:pointer;font-family:var(--fb);}
+.nav-res:hover{background:var(--verde2);}
+.nav-admin{background:none;border:1.5px solid var(--gris2);color:var(--gris);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;border-radius:50%;}
+.nav-admin:hover{border-color:var(--verde);color:var(--verde);}
+.hamburger{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;}
+.hamburger span{display:block;width:20px;height:1.5px;background:var(--negro);transition:all .3s;}
+.hamburger.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+
+/* MOBILE MENU */
+.mob-menu{
+  position:fixed;inset:0;background:var(--crema);z-index:99;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.mob-menu.open{opacity:1;pointer-events:all;}
+.mob-menu a{font-family:var(--fd);font-size:clamp(32px,8vw,52px);color:rgba(26,26,24,.3);text-decoration:none;padding:6px 0;transition:color .2s;font-style:italic;}
+.mob-menu a:hover{color:var(--verde);}
+.mob-menu .mob-cta{margin-top:28px;}
+
+/* ── HERO ── */
+.hero{
+  height:100vh;min-height:640px;display:grid;
+  grid-template-columns:1fr 1fr;position:relative;
+  margin-top:68px;
+}
+.hero-left{
+  background:var(--negro);display:flex;flex-direction:column;
+  justify-content:center;padding:80px 64px;position:relative;overflow:hidden;
+}
+.hero-left::after{
+  content:'';position:absolute;right:-1px;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,var(--verde),transparent);
+}
+.hero-eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--verde);margin-bottom:28px;display:flex;align-items:center;gap:10px;}
+.hero-eyebrow::after{content:'';flex:1;height:1px;background:var(--verde);opacity:.4;max-width:60px;}
+.hero-title{font-family:var(--fd);font-size:clamp(48px,5.5vw,80px);color:#fff;line-height:.95;margin-bottom:28px;letter-spacing:-.5px;}
+.hero-title em{font-style:italic;color:rgba(255,255,255,.45);}
+.hero-body{font-size:14px;color:rgba(255,255,255,.4);line-height:1.8;max-width:380px;margin-bottom:40px;font-weight:300;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-solid{background:var(--verde);color:#fff;padding:13px 28px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .2s;border:none;cursor:pointer;font-family:var(--fb);}
+.btn-solid:hover{background:var(--verde2);}
+.btn-ghost{background:transparent;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15);padding:12px 24px;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .2s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,.4);color:#fff;}
+.hero-right{position:relative;overflow:hidden;}
+.hero-right-img{
+  position:absolute;inset:0;
+  background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=90&auto=format&fit=crop');
+  background-size:cover;background-position:center;
+}
+.hero-right-overlay{position:absolute;inset:0;background:rgba(26,26,24,.15);}
+.hero-badge{
+  position:absolute;bottom:40px;left:40px;
+  background:rgba(250,248,245,.95);backdrop-filter:blur(12px);
+  padding:16px 20px;border-left:3px solid var(--verde);
+}
+.hero-badge-num{font-family:var(--fd);font-size:28px;color:var(--verde);line-height:1;}
+.hero-badge-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:3px;}
+.hero-stats-strip{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(250,248,245,.92);backdrop-filter:blur(12px);
+  display:flex;
+}
+.hs{flex:1;padding:16px 20px;border-right:1px solid var(--gris2);text-align:center;}
+.hs:last-child{border:none;}
+.hs-num{font-family:var(--fd);font-size:22px;color:var(--verde);}
+.hs-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:3px;}
+
+/* ── SECTIONS ── */
+.sec{padding:96px 48px;}
+.sec-label{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--verde);margin-bottom:14px;}
+.sec-title{font-family:var(--fd);font-size:clamp(34px,4vw,54px);line-height:1.05;margin-bottom:14px;color:var(--negro);}
+.sec-title em{font-style:italic;color:var(--gris);}
+.sec-body{font-size:14px;color:var(--gris);line-height:1.8;max-width:480px;font-weight:300;}
+
+/* ── FILOSOFIA ── */
+.filosofia{background:var(--blanco);border-top:1px solid var(--gris2);border-bottom:1px solid var(--gris2);}
+.fil-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.fil-imgs{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fi{overflow:hidden;}
+.fi img{width:100%;display:block;aspect-ratio:3/4;object-fit:cover;transition:transform .6s;}
+.fi:hover img{transform:scale(1.04);}
+.fi:first-child{margin-top:40px;}
+.fil-text{padding:20px 0;}
+.fil-quote{
+  font-family:var(--fd);font-size:clamp(22px,2.5vw,32px);
+  color:var(--negro);line-height:1.35;font-style:italic;
+  margin:28px 0;padding-left:24px;
+  border-left:2px solid var(--verde);
+}
+.fil-nums{display:flex;gap:32px;margin-top:36px;padding-top:28px;border-top:1px solid var(--gris2);}
+.fn{text-align:center;}
+.fn-val{font-family:var(--fd);font-size:36px;color:var(--verde);}
+.fn-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);margin-top:4px;}
+
+/* ── MENÚ ── */
+.menu-sec{background:var(--crema);}
+.menu-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:20px;}
+.menu-tabs{display:flex;gap:2px;}
+.mtab{padding:9px 20px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--crema2);border:none;color:var(--gris);cursor:pointer;font-family:var(--fb);font-weight:500;transition:all .2s;white-space:nowrap;}
+.mtab:hover{background:var(--gris2);}
+.mtab.active{background:var(--verde);color:#fff;}
+.menu-list{display:flex;flex-direction:column;gap:1px;background:var(--gris2);}
+.dish-row{
+  background:var(--blanco);display:grid;
+  grid-template-columns:140px 1fr auto;
+  align-items:center;gap:0;
+  transition:background .2s;cursor:default;
+}
+.dish-row:hover{background:var(--crema);}
+.dish-img{width:140px;height:110px;overflow:hidden;flex-shrink:0;}
+.dish-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.dish-row:hover .dish-img img{transform:scale(1.06);}
+.dish-info{padding:20px 28px;}
+.dish-badge{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--verde);margin-bottom:5px;}
+.dish-name{font-family:var(--fd);font-size:18px;color:var(--negro);margin-bottom:5px;}
+.dish-desc{font-size:12px;color:var(--gris);line-height:1.6;}
+.dish-price{padding:20px 28px 20px 0;flex-shrink:0;text-align:right;}
+.dish-price-val{font-family:var(--fd);font-size:22px;color:var(--verde);}
+.dish-price-unit{font-size:10px;color:var(--gris);letter-spacing:.08em;margin-top:2px;}
+
+/* ── RESERVA ── */
+.reserva-sec{background:var(--verde);position:relative;overflow:hidden;}
+.reserva-sec::before{content:'';position:absolute;width:800px;height:800px;border-radius:50%;background:rgba(255,255,255,.03);top:-300px;right:-200px;pointer-events:none;}
+.res-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.res-left{padding-top:8px;}
+.res-title{font-family:var(--fd);font-size:clamp(36px,4vw,54px);color:#fff;line-height:1.05;margin-bottom:14px;}
+.res-title em{font-style:italic;color:rgba(255,255,255,.45);}
+.res-sub{font-size:14px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:40px;font-weight:300;}
+.res-info-block{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.1);}
+.res-info-block:last-child{border:none;}
+.rib-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px;}
+.rib-val{font-size:14px;color:rgba(255,255,255,.75);}
+.rib-val small{display:block;font-size:12px;color:rgba(255,255,255,.35);margin-top:2px;}
+.res-form{background:var(--blanco);padding:40px;}
+.rf-title{font-family:var(--fd);font-size:22px;color:var(--negro);margin-bottom:4px;}
+.rf-sub{font-size:12px;color:var(--gris);margin-bottom:28px;}
+.rf-group{margin-bottom:14px;}
+.rf-group label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-bottom:6px;}
+.rf-group input,.rf-group select,.rf-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--gris2);background:#fff;color:var(--negro);font-size:13px;font-family:var(--fb);outline:none;transition:border-color .2s;}
+.rf-group input:focus,.rf-group select:focus,.rf-group textarea:focus{border-color:var(--verde);}
+.rf-group textarea{height:80px;resize:none;}
+.rf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.rf-btn{width:100%;background:var(--verde);color:#fff;border:none;padding:14px;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;font-family:var(--fb);margin-top:8px;transition:background .2s;}
+.rf-btn:hover{background:var(--verde2);}
+
+/* ── GALERÍA ── */
+.galeria-sec{background:var(--crema2);}
+.gal-grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-template-rows:260px 260px;
+  gap:8px;margin-top:48px;
+}
+.gi{overflow:hidden;}
+.gi img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s,filter .3s;filter:brightness(.9);}
+.gi:hover img{transform:scale(1.05);filter:brightness(1);}
+.gi:nth-child(1){grid-column:span 5;}
+.gi:nth-child(2){grid-column:span 4;}
+.gi:nth-child(3){grid-column:span 3;grid-row:span 2;}
+.gi:nth-child(4){grid-column:span 3;}
+.gi:nth-child(5){grid-column:span 3;}
+.gi:nth-child(6){grid-column:span 3;}
+
+/* ── CHEF ── */
+.chef-sec{background:var(--blanco);}
+.chef-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:540px;}
+.chef-img{
+  background-image:url('https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=900&q=85&auto=format&fit=crop');
+  background-size:cover;background-position:top center;
+}
+.chef-text{padding:72px 64px;display:flex;flex-direction:column;justify-content:center;background:var(--negro);}
+.chef-eyebrow{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--verde);margin-bottom:20px;}
+.chef-name{font-family:var(--fd);font-size:clamp(36px,4vw,54px);color:#fff;line-height:1;margin-bottom:6px;}
+.chef-role{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:24px;}
+.chef-bio{font-size:14px;color:rgba(255,255,255,.45);line-height:1.85;font-weight:300;margin-bottom:32px;}
+.chef-awards{display:flex;flex-direction:column;gap:12px;}
+.chef-award{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.ca-icon{color:var(--verde);font-size:16px;flex-shrink:0;}
+.ca-text{font-size:13px;color:rgba(255,255,255,.5);}
+
+/* ── TESTIMONIOS ── */
+.test-sec{background:var(--crema);}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gris2);margin-top:48px;}
+.tc{background:var(--blanco);padding:36px 28px;transition:background .2s;}
+.tc:hover{background:var(--crema);}
+.tc-stars{color:var(--verde);font-size:12px;letter-spacing:3px;margin-bottom:16px;}
+.tc-text{font-family:var(--fd);font-size:15px;color:var(--negro);line-height:1.7;font-style:italic;margin-bottom:20px;}
+.tc-author{display:flex;align-items:center;gap:10px;}
+.tc-av{width:32px;height:32px;background:var(--verde-pale);border:1.5px solid var(--verde);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:13px;color:var(--verde);font-weight:700;flex-shrink:0;}
+.tc-name{font-size:12px;font-weight:600;color:var(--negro);}
+.tc-date{font-size:10px;color:var(--gris);}
+
+/* ── FOOTER ── */
+footer{background:var(--negro);padding:72px 48px 0;}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.06);}
+.foot-brand{font-family:var(--fd);font-size:24px;color:#fff;margin-bottom:6px;font-style:italic;}
+.foot-tag{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--verde);margin-bottom:14px;}
+.foot-desc{font-size:13px;color:rgba(255,255,255,.25);line-height:1.8;max-width:220px;}
+.foot-col h4{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:16px;}
+.foot-col a{display:block;font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;margin-bottom:9px;transition:color .2s;}
+.foot-col a:hover{color:#fff;}
+.foot-bottom{padding:20px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.foot-bottom p{font-size:11px;color:rgba(255,255,255,.15);}
+.foot-soc{display:flex;gap:8px;}
+.fsoc{width:30px;height:30px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);text-decoration:none;font-size:10px;font-weight:700;transition:all .2s;}
+.fsoc:hover{border-color:var(--verde);color:var(--verde);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;z-index:500;background:var(--negro);color:#fff;border-bottom:2px solid var(--verde);padding:14px 20px;font-size:13px;box-shadow:0 8px 40px rgba(0,0,0,.2);transform:translateX(140%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:300px;line-height:1.5;}
+.toast.show{transform:translateX(0);}
+
+/* ── ADMIN ── */
+.modal-over{position:fixed;inset:0;z-index:200;background:rgba(250,248,245,.9);backdrop-filter:blur(16px);opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-over.open{opacity:1;pointer-events:all;}
+.admin-box{
+  background:var(--blanco);width:100%;max-width:640px;max-height:92vh;
+  display:flex;flex-direction:column;
+  border:1px solid var(--gris2);
+  box-shadow:0 24px 80px rgba(26,26,24,.12);
+  transform:translateY(16px);transition:transform .3s;
+}
+.modal-over.open .admin-box{transform:translateY(0);}
+.admin-head{padding:20px 28px;border-bottom:1px solid var(--gris2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.admin-head-left{display:flex;align-items:center;gap:12px;}
+.admin-head-tag{width:8px;height:28px;background:var(--verde);}
+.admin-head-title{font-family:var(--fd);font-size:20px;color:var(--negro);}
+.admin-head-close{background:none;border:1.5px solid var(--gris2);color:var(--gris);width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .2s;}
+.admin-head-close:hover{border-color:var(--negro);color:var(--negro);}
+.admin-body{flex:1;overflow-y:auto;padding:28px;}
+
+/* PW */
+.pw-wrap{text-align:center;padding:28px 0;}
+.pw-wrap h3{font-family:var(--fd);font-size:28px;color:var(--negro);margin-bottom:6px;font-style:italic;}
+.pw-wrap p{font-size:13px;color:var(--gris);margin-bottom:24px;}
+.pw-inp{width:100%;max-width:240px;padding:12px 16px;border:1.5px solid var(--gris2);background:#fff;color:var(--negro);font-size:18px;text-align:center;letter-spacing:.3em;font-family:var(--fb);outline:none;transition:border-color .2s;}
+.pw-inp:focus{border-color:var(--verde);}
+.pw-btn-go{display:block;width:100%;max-width:240px;margin:12px auto 0;background:var(--verde);color:#fff;border:none;padding:12px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:var(--fb);}
+.pw-btn-go:hover{background:var(--verde2);}
+.pw-err{color:#c0392b;font-size:12px;margin-top:8px;min-height:18px;}
+
+/* ADMIN TABS */
+.a-tabs{display:flex;border-bottom:1.5px solid var(--gris2);margin-bottom:24px;overflow-x:auto;}
+.a-tabs::-webkit-scrollbar{display:none;}
+.a-tab{padding:10px 18px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:none;border:none;color:var(--gris);cursor:pointer;font-family:var(--fb);font-weight:500;border-bottom:1.5px solid transparent;margin-bottom:-1.5px;transition:all .2s;white-space:nowrap;}
+.a-tab.active{color:var(--verde);border-bottom-color:var(--verde);}
+.a-sec{display:none;}
+.a-sec.active{display:block;}
+
+/* ADMIN FIELDS */
+.af{margin-bottom:14px;}
+.af label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-bottom:6px;}
+.af input,.af select,.af textarea{width:100%;padding:10px 13px;border:1.5px solid var(--gris2);background:#fff;color:var(--negro);font-size:13px;font-family:var(--fb);outline:none;transition:border-color .2s;}
+.af input:focus,.af select:focus,.af textarea:focus{border-color:var(--verde);}
+.af textarea{height:70px;resize:vertical;}
+.ar2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ip{width:100%;height:110px;border:1.5px dashed var(--gris2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden;margin-bottom:6px;background:var(--crema);color:var(--gris2);font-size:28px;}
+.ip:hover{border-color:var(--verde);}
+.ip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.ab{width:100%;background:var(--verde);color:#fff;border:none;padding:11px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:var(--fb);margin-top:6px;transition:background .2s;}
+.ab:hover{background:var(--verde2);}
+.ab.red{background:#c0392b;}
+.ab.red:hover{background:#a93226;}
+.ilist{display:flex;flex-direction:column;gap:6px;}
+.irow{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--gris2);transition:border-color .2s;}
+.irow:hover{border-color:var(--verde);}
+.irow-img{width:52px;height:44px;overflow:hidden;flex-shrink:0;}
+.irow-img img{width:100%;height:100%;object-fit:cover;}
+.irow-info{flex:1;}
+.irow-info strong{font-size:13px;color:var(--negro);display:block;}
+.irow-info span{font-size:11px;color:var(--gris);}
+.rb{display:flex;gap:6px;}
+.be,.bd{padding:5px 11px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:var(--fb);border:1.5px solid;background:transparent;}
+.be{color:var(--verde);border-color:var(--gris2);}
+.be:hover{background:var(--verde);color:#fff;border-color:var(--verde);}
+.bd{color:#c0392b;border-color:rgba(192,57,43,.3);}
+.bd:hover{background:#c0392b;color:#fff;border-color:#c0392b;}
+
+/* SETT */
+.sg{margin-bottom:22px;}
+.sg-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--verde);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--gris2);}
+.sr{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;flex-wrap:wrap;gap:8px;}
+.sr>label:first-child{font-size:13px;color:var(--negro);}
+.sr input[type=text],.sr select{padding:7px 11px;border:1.5px solid var(--gris2);font-size:12px;font-family:var(--fb);outline:none;min-width:140px;background:#fff;color:var(--negro);}
+.sr input:focus,.sr select:focus{border-color:var(--verde);}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.tsl{position:absolute;inset:0;background:var(--gris2);cursor:pointer;border-radius:11px;transition:background .3s;}
+.tsl::before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle input:checked+.tsl{background:var(--verde);}
+.toggle input:checked+.tsl::before{transform:translateX(18px);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav,.sec,footer{padding-left:32px;padding-right:32px;}
+  .foot-top{grid-template-columns:1fr 1fr;gap:32px;}
+  .hero-left{padding:60px 40px;}
+}
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .nav-links,.nav-res{display:none;}
+  .hamburger{display:flex;}
+  .hero{grid-template-columns:1fr;height:auto;margin-top:62px;}
+  .hero-left{padding:60px 24px;}
+  .hero-right{height:320px;}
+  .hero-stats-strip{position:static;border-top:1px solid var(--gris2);}
+  .sec{padding:64px 24px;}
+  .fil-grid{grid-template-columns:1fr;}
+  .res-inner{grid-template-columns:1fr;}
+  .gal-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;gap:6px;}
+  .gi:nth-child(n){grid-column:span 1;grid-row:span 1;}
+  .gi{height:200px;}
+  .chef-inner{grid-template-columns:1fr;}
+  .chef-img{height:320px;}
+  .chef-text{padding:44px 28px;}
+  .test-grid{grid-template-columns:1fr;}
+  footer{padding:40px 24px 0;}
+  .foot-top{grid-template-columns:1fr 1fr;gap:24px;padding-bottom:32px;}
+  .dish-row{grid-template-columns:100px 1fr auto;}
+  .dish-img{width:100px;height:90px;}
+}
+@media(max-width:480px){
+  nav{padding:0 16px;}
+  .hero-left{padding:44px 16px;}
+  .hero-title{font-size:clamp(40px,12vw,60px);}
+  .hero-actions{flex-direction:column;}
+  .btn-solid,.btn-ghost{text-align:center;}
+  .hero-stats-strip{flex-wrap:wrap;}
+  .hs{min-width:50%;}
+  .sec{padding:52px 16px;}
+  .sec-title{font-size:30px;}
+  .fil-imgs{grid-template-columns:1fr;}
+  .fi:first-child{margin-top:0;}
+  .fil-nums{flex-wrap:wrap;gap:20px;}
+  .dish-row{grid-template-columns:80px 1fr;grid-template-rows:auto auto;}
+  .dish-price{grid-column:2;padding:0 16px 16px;}
+  .gal-grid{grid-template-columns:1fr 1fr;gap:4px;}
+  .gi{height:150px;}
+  .test-grid{grid-template-columns:1fr;}
+  .foot-top{grid-template-columns:1fr;}
+  footer{padding:32px 16px 0;}
+  .admin-body{padding:18px 16px;}
+  .ar2{grid-template-columns:1fr;}
+  .sr{flex-direction:column;align-items:flex-start;}
+  .sr input[type=text],.sr select{width:100%;min-width:unset;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#top">
+    <div class="nav-logo-name">Maison Verte</div>
+    <div class="nav-logo-tag">Cuisine · Guadalajara</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#filosofia">Filosofía</a></li>
+    <li><a href="#menu">Menú</a></li>
+    <li><a href="#chef">El Chef</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#reserva">Reservar</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-admin" onclick="openAdmin()" title="Admin">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    </button>
+    <a class="nav-res" href="#reserva">Reservar mesa</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <a href="#filosofia" onclick="closeMob()">Filosofía</a>
+  <a href="#menu" onclick="closeMob()">Menú</a>
+  <a href="#chef" onclick="closeMob()">El Chef</a>
+  <a href="#galeria" onclick="closeMob()">Galería</a>
+  <a href="#reserva" onclick="closeMob()">Reservar</a>
+  <div class="mob-cta"><a class="btn-solid" href="#reserva" onclick="closeMob()">Reservar mesa</a></div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Cocina de autor · Desde 2015</div>
+    <h1 class="hero-title">La naturaleza<br>en cada <em>bocado.</em></h1>
+    <p class="hero-body">Una experiencia culinaria que celebra los ingredientes locales de temporada, transformados con técnica y emoción en cada platillo.</p>
+    <div class="hero-actions">
+      <a class="btn-solid" href="#reserva">Reservar mesa</a>
+      <a class="btn-ghost" href="#menu">Ver menú</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-img"></div>
+    <div class="hero-right-overlay"></div>
+    <div class="hero-badge">
+      <div class="hero-badge-num">4.9</div>
+      <div class="hero-badge-label">Calificación promedio</div>
+    </div>
+    <div class="hero-stats-strip">
+      <div class="hs"><div class="hs-num">9</div><div class="hs-label">Años</div></div>
+      <div class="hs"><div class="hs-num">28K+</div><div class="hs-label">Comensales</div></div>
+      <div class="hs"><div class="hs-num">8</div><div class="hs-label">Premios</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FILOSOFÍA -->
+<section class="sec filosofia" id="filosofia">
+  <div class="fil-grid">
+    <div class="fil-imgs">
+      <div class="fi"><img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=600&q=85&auto=format&fit=crop" alt="chef" loading="lazy"></div>
+      <div class="fi"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=85&auto=format&fit=crop" alt="restaurante" loading="lazy"></div>
+    </div>
+    <div class="fil-text">
+      <div class="sec-label">Nuestra filosofía</div>
+      <h2 class="sec-title">Cocina honesta,<br>ingredientes <em>vivos.</em></h2>
+      <p class="sec-body">Trabajamos con productores locales de Jalisco y Nayarit. Cada temporada dictamina nuestro menú — no al revés. Creemos que la mejor cocina empieza en el campo.</p>
+      <blockquote class="fil-quote">"La técnica es el vehículo. El ingrediente es el destino."</blockquote>
+      <p class="sec-body">Nuestro chef Armando Cruz estudió en Lyon y regresó con una misión: dignificar los sabores de su tierra con la precisión que aprendió en Europa.</p>
+      <div class="fil-nums">
+        <div class="fn"><div class="fn-val">100%</div><div class="fn-label">Local</div></div>
+        <div class="fn"><div class="fn-val">12</div><div class="fn-label">Productores</div></div>
+        <div class="fn"><div class="fn-val">0</div><div class="fn-label">Desperdicio</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENÚ -->
+<section class="sec menu-sec" id="menu">
+  <div class="menu-header">
+    <div>
+      <div class="sec-label">Lo que cocinamos</div>
+      <h2 class="sec-title">Menú de <em>temporada</em></h2>
+    </div>
+    <div class="menu-tabs">
+      <button class="mtab active" onclick="switchTab('entradas',this)">Entradas</button>
+      <button class="mtab" onclick="switchTab('principales',this)">Principales</button>
+      <button class="mtab" onclick="switchTab('postres',this)">Postres</button>
+      <button class="mtab" onclick="switchTab('bebidas',this)">Bebidas</button>
+    </div>
+  </div>
+  <div class="menu-list" id="menu-list"></div>
+</section>
+
+<!-- RESERVA -->
+<section class="sec reserva-sec" id="reserva">
+  <div class="res-inner">
+    <div class="res-left">
+      <div class="sec-label" style="color:rgba(255,255,255,.4)">Agenda tu visita</div>
+      <h2 class="res-title">Una mesa<br>te <em>espera.</em></h2>
+      <p class="res-sub">Reservaciones disponibles de martes a domingo. Te confirmamos en menos de 2 horas.</p>
+      <div class="res-info-block"><div class="rib-label">Dirección</div><div class="rib-val">Av. Vallarta 2345, Col. Arcos<small>Guadalajara, Jalisco</small></div></div>
+      <div class="res-info-block"><div class="rib-label">Horario</div><div class="rib-val">Mar – Dom: 13:00 – 22:30<small>Lunes: cerrado</small></div></div>
+      <div class="res-info-block"><div class="rib-label">Contacto</div><div class="rib-val">+52 33 8765 4321<small>hola@maisonverte.mx</small></div></div>
+    </div>
+    <div class="res-form">
+      <div class="rf-title">Reservar mesa</div>
+      <div class="rf-sub">Completa el formulario y confirmamos pronto.</div>
+      <div class="rf-group"><label>Nombre completo</label><input type="text" placeholder="Tu nombre"></div>
+      <div class="rf-row">
+        <div class="rf-group"><label>Teléfono</label><input type="tel" placeholder="+52 33..."></div>
+        <div class="rf-group"><label>Email</label><input type="email" placeholder="tu@correo.com"></div>
+      </div>
+      <div class="rf-row">
+        <div class="rf-group"><label>Fecha</label><input type="date"></div>
+        <div class="rf-group"><label>Hora</label>
+          <select><option>13:00</option><option>13:30</option><option>14:00</option><option>14:30</option><option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option><option>21:30</option></select>
+        </div>
+      </div>
+      <div class="rf-row">
+        <div class="rf-group"><label>Personas</label><select><option>1</option><option>2</option><option selected>3–4</option><option>5–6</option><option>7+</option></select></div>
+        <div class="rf-group"><label>Ocasión</label><select><option>Ninguna</option><option>Cumpleaños</option><option>Aniversario</option><option>Negocio</option><option>Romántica</option></select></div>
+      </div>
+      <div class="rf-group"><label>Notas</label><textarea placeholder="Alergias, preferencias..."></textarea></div>
+      <button class="rf-btn" onclick="showToast('✓ Reservación recibida. Te contactamos pronto.')">Confirmar reservación</button>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="sec galeria-sec" id="galeria">
+  <div class="sec-label">En imágenes</div>
+  <h2 class="sec-title">Sabor que<br>se <em>ve.</em></h2>
+  <div class="gal-grid">
+    <div class="gi"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"></div>
+    <div class="gi"><img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=85&auto=format&fit=crop" alt="" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- CHEF -->
+<section class="chef-sec" id="chef">
+  <div class="chef-inner">
+    <div class="chef-img"></div>
+    <div class="chef-text">
+      <div class="chef-eyebrow">Detrás de la cocina</div>
+      <div class="chef-name">Armando Cruz</div>
+      <div class="chef-role">Chef Ejecutivo & Fundador</div>
+      <p class="chef-bio">Formado en el Institut Paul Bocuse en Lyon, Armando regresó a Guadalajara con una misión: crear una cocina que honrara sus raíces. Hoy lidera un equipo de 12 personas que comparten su pasión por los ingredientes de temporada.</p>
+      <div class="chef-awards">
+        <div class="chef-award"><span class="ca-icon">◆</span><span class="ca-text">Premio Nacional de Gastronomía 2022</span></div>
+        <div class="chef-award"><span class="ca-icon">◆</span><span class="ca-text">Top 50 Chefs México — Comer Magazine</span></div>
+        <div class="chef-award"><span class="ca-icon">◆</span><span class="ca-text">Mejor Restaurante GDL — Guía Turística 2023–24</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="sec test-sec">
+  <div class="sec-label">Opiniones</div>
+  <h2 class="sec-title">Lo que dicen<br>nuestros <em>comensales.</em></h2>
+  <div class="test-grid">
+    <div class="tc"><div class="tc-stars">★★★★★</div><div class="tc-text">La experiencia más completa que he tenido en un restaurante mexicano. Cada platillo cuenta una historia.</div><div class="tc-author"><div class="tc-av">L</div><div><div class="tc-name">Laura M.</div><div class="tc-date">Hace 1 semana</div></div></div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><div class="tc-text">El menú de degustación es simplemente sublime. Los maridajes fueron perfectos. Volveremos en cada aniversario.</div><div class="tc-author"><div class="tc-av">P</div><div><div class="tc-name">Pablo & Ana</div><div class="tc-date">Hace 2 semanas</div></div></div></div>
+    <div class="tc"><div class="tc-stars">★★★★★</div><div class="tc-text">He comido en restaurantes de toda Latinoamérica y este está en mi top 3. El ceviche de camarón es extraordinario.</div><div class="tc-author"><div class="tc-av">M</div><div><div class="tc-name">Marcos V.</div><div class="tc-date">Hace 3 semanas</div></div></div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-top">
+    <div>
+      <div class="foot-brand">Maison Verte</div>
+      <div class="foot-tag">Cuisine · Guadalajara · Desde 2015</div>
+      <p class="foot-desc">Cocina de autor con ingredientes locales de temporada. Una experiencia que celebra la naturaleza.</p>
+    </div>
+    <div class="foot-col"><h4>Restaurante</h4><a href="#filosofia">Filosofía</a><a href="#menu">Menú</a><a href="#chef">El Chef</a><a href="#galeria">Galería</a></div>
+    <div class="foot-col"><h4>Visítanos</h4><a href="#reserva">Reservaciones</a><a href="#">Eventos privados</a><a href="#">Cómo llegar</a><a href="#">Prensa</a></div>
+    <div class="foot-col"><h4>Contacto</h4><a href="https://wa.me/523387654321" target="_blank">WhatsApp</a><a href="https://instagram.com" target="_blank">Instagram</a><a href="https://facebook.com" target="_blank">Facebook</a><a href="#">hola@maisonverte.mx</a></div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 Maison Verte. Todos los derechos reservados.</p>
+    <div class="foot-soc">
+      <a class="fsoc" href="https://instagram.com" target="_blank">ig</a>
+      <a class="fsoc" href="https://facebook.com" target="_blank">fb</a>
+      <a class="fsoc" href="https://wa.me/523387654321" target="_blank">wa</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ADMIN MODAL -->
+<div class="modal-over" id="modal-over" onclick="if(event.target===this)closeAdmin()">
+  <div class="admin-box">
+    <div class="admin-head">
+      <div class="admin-head-left">
+        <div class="admin-head-tag"></div>
+        <span class="admin-head-title">Panel de administración</span>
+      </div>
+      <button class="admin-head-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body" id="admin-body">
+      <div class="pw-wrap" id="pw-screen">
+        <h3>Acceso privado</h3>
+        <p>Ingresa la contraseña para gestionar el restaurante</p>
+        <input class="pw-inp" type="password" id="pw-inp" placeholder="••••••" onkeydown="if(event.key==='Enter')checkPw()">
+        <button class="pw-btn-go" onclick="checkPw()">Ingresar</button>
+        <div class="pw-err" id="pw-err"></div>
+      </div>
+      <div id="admin-panel" style="display:none">
+        <div class="a-tabs">
+          <button class="a-tab active" onclick="aTab('add',this)">+ Agregar platillo</button>
+          <button class="a-tab" onclick="aTab('list',this)">Editar menú</button>
+          <button class="a-tab" onclick="aTab('cfg',this)">Configuración</button>
+          <button class="a-tab" onclick="aTab('pw2',this)">Contraseña</button>
+        </div>
+        <!-- ADD -->
+        <div class="a-sec active" id="tab-add">
+          <div class="af"><label>Foto del platillo</label>
+            <div class="ip" id="add-ip" onclick="document.getElementById('add-file').click()">📷</div>
+            <input type="file" id="add-file" accept="image/*" style="display:none" onchange="pImg(this,'add-ip')">
+            <small style="font-size:11px;color:var(--gris)">Toca para subir imagen</small>
+          </div>
+          <div class="ar2">
+            <div class="af"><label>Nombre</label><input type="text" id="add-n" placeholder="Ej: Sopa de lima"></div>
+            <div class="af"><label>Categoría</label><select id="add-c"><option value="entradas">Entradas</option><option value="principales">Principales</option><option value="postres">Postres</option><option value="bebidas">Bebidas</option></select></div>
+          </div>
+          <div class="af"><label>Descripción</label><textarea id="add-d" placeholder="Descripción del platillo..."></textarea></div>
+          <div class="ar2">
+            <div class="af"><label>Precio ($)</label><input type="number" id="add-p" placeholder="320"></div>
+            <div class="af"><label>Badge</label><select id="add-b"><option value="">Ninguno</option><option value="chef">Del Chef</option><option value="nuevo">Nuevo</option><option value="popular">Popular</option></select></div>
+          </div>
+          <button class="ab" onclick="addDish()">Agregar al menú</button>
+        </div>
+        <!-- LIST -->
+        <div class="a-sec" id="tab-list"><div class="ilist" id="dish-list"></div></div>
+        <!-- EDIT -->
+        <div class="a-sec" id="tab-edit">
+          <button onclick="aTab('list',document.querySelectorAll('.a-tab')[1])" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--gris);margin-bottom:16px;font-family:var(--fb);">← Volver</button>
+          <div class="af"><label>Foto</label>
+            <div class="ip" id="edit-ip" onclick="document.getElementById('edit-file').click()">📷</div>
+            <input type="file" id="edit-file" accept="image/*" style="display:none" onchange="pImg(this,'edit-ip')">
+          </div>
+          <div class="ar2">
+            <div class="af"><label>Nombre</label><input type="text" id="edit-n"></div>
+            <div class="af"><label>Categoría</label><select id="edit-c"><option value="entradas">Entradas</option><option value="principales">Principales</option><option value="postres">Postres</option><option value="bebidas">Bebidas</option></select></div>
+          </div>
+          <div class="af"><label>Descripción</label><textarea id="edit-d"></textarea></div>
+          <div class="ar2">
+            <div class="af"><label>Precio ($)</label><input type="number" id="edit-p"></div>
+            <div class="af"><label>Badge</label><select id="edit-b"><option value="">Ninguno</option><option value="chef">Del Chef</option><option value="nuevo">Nuevo</option><option value="popular">Popular</option></select></div>
+          </div>
+          <input type="hidden" id="edit-id">
+          <button class="ab" onclick="saveDish()">Guardar cambios</button>
+          <button class="ab red" onclick="delDish()" style="margin-top:8px">Eliminar platillo</button>
+        </div>
+        <!-- CONFIG -->
+        <div class="a-sec" id="tab-cfg">
+          <div class="sg"><div class="sg-title">Restaurante</div>
+            <div class="sr"><label>Nombre</label><input type="text" value="Maison Verte"></div>
+            <div class="sr"><label>Dirección</label><input type="text" value="Av. Vallarta 2345"></div>
+            <div class="sr"><label>Teléfono</label><input type="text" value="+52 33 8765 4321"></div>
+            <div class="sr"><label>Email</label><input type="text" value="hola@maisonverte.mx"></div>
+          </div>
+          <div class="sg"><div class="sg-title">Horarios</div>
+            <div class="sr"><label>Apertura</label><input type="text" value="13:00"></div>
+            <div class="sr"><label>Cierre</label><input type="text" value="22:30"></div>
+            <div class="sr"><label>Día de descanso</label><select><option>Lunes</option><option>Martes</option><option>Sin descanso</option></select></div>
+          </div>
+          <div class="sg"><div class="sg-title">Funciones</div>
+            <div class="sr"><label>Reservaciones online</label><label class="toggle"><input type="checkbox" checked><span class="tsl"></span></label></div>
+            <div class="sr"><label>Menú visible</label><label class="toggle"><input type="checkbox" checked><span class="tsl"></span></label></div>
+            <div class="sr"><label>Eventos privados</label><label class="toggle"><input type="checkbox" checked><span class="tsl"></span></label></div>
+            <div class="sr"><label>Menú de degustación</label><label class="toggle"><input type="checkbox" checked><span class="tsl"></span></label></div>
+          </div>
+          <div class="sg"><div class="sg-title">Redes</div>
+            <div class="sr"><label>Instagram</label><input type="text" value="@maisonverte.gdl"></div>
+            <div class="sr"><label>Facebook</label><input type="text" value="fb.com/maisonverte"></div>
+            <div class="sr"><label>WhatsApp</label><input type="text" value="+52 33 8765 4321"></div>
+          </div>
+          <button class="ab" onclick="showToast('✓ Configuración guardada');closeAdmin()">Guardar configuración</button>
+        </div>
+        <!-- PW -->
+        <div class="a-sec" id="tab-pw2">
+          <p style="font-size:13px;color:var(--gris);margin-bottom:20px;padding:12px;background:var(--verde-pale);border-left:3px solid var(--verde)">Contraseña por defecto: <strong style="color:var(--verde)">maison2025</strong></p>
+          <div class="af"><label>Contraseña actual</label><input type="password" id="p-cur" placeholder="••••••"></div>
+          <div class="af"><label>Nueva contraseña</label><input type="password" id="p-new" placeholder="••••••"></div>
+          <div class="af"><label>Confirmar</label><input type="password" id="p-con" placeholder="••••••"></div>
+          <div class="pw-err" id="p-err"></div>
+          <button class="ab" onclick="changePw()">Actualizar contraseña</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* NAV */
+window.addEventListener('scroll',()=>{});
+
+/* MOBILE */
+function toggleMenu(){
+  const h=document.getElementById('hamburger'),m=document.getElementById('mob-menu');
+  h.classList.toggle('open');m.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function closeMob(){document.getElementById('hamburger').classList.remove('open');document.getElementById('mob-menu').classList.remove('open');document.body.style.overflow='';}
+
+/* MENU DATA */
+let dishes=[
+  {id:1,cat:'entradas',name:'Ceviche verde',desc:'Camarón fresco, aguacate, pepino, jalapeño y leche de tigre de cilantro.',price:195,badge:'popular',img:'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=600&q=80&auto=format&fit=crop'},
+  {id:2,cat:'entradas',name:'Tostada de atún',desc:'Atún fresco, mayonesa de chipotle, crema de aguacate y cebolla morada.',price:175,badge:'chef',img:'https://images.unsplash.com/photo-1551248429-40975aa4de74?w=600&q=80&auto=format&fit=crop'},
+  {id:3,cat:'entradas',name:'Sopa de lima',desc:'Caldo de pollo de rancho, lima de Yucatán y tortilla artesanal tostada.',price:155,badge:'',img:'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80&auto=format&fit=crop'},
+  {id:4,cat:'principales',name:'Robalo en costra de chile',desc:'Robalo del Pacífico con costra de chile ancho, puré de coliflor y salsa verde.',price:420,badge:'chef',img:'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80&auto=format&fit=crop'},
+  {id:5,cat:'principales',name:'Costilla de ternera',desc:'48 horas de cocción lenta, glaseado de piloncillo y camote asado.',price:480,badge:'popular',img:'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80&auto=format&fit=crop'},
+  {id:6,cat:'principales',name:'Risotto de hongos',desc:'Hongos silvestres de temporada, parmesano añejo y aceite de trufa blanca.',price:360,badge:'nuevo',img:'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80&auto=format&fit=crop'},
+  {id:7,cat:'postres',name:'Marquesa de chocolate',desc:'Chocolate Oaxaca 70%, crema chantilly de vainilla y tierra de cacao.',price:145,badge:'chef',img:'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600&q=80&auto=format&fit=crop'},
+  {id:8,cat:'postres',name:'Helado de piloncillo',desc:'Helado artesanal de piloncillo, nuez y cajeta de cabra de Jalisco.',price:115,badge:'popular',img:'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80&auto=format&fit=crop'},
+  {id:9,cat:'bebidas',name:'Agua de chía y limón',desc:'Chía orgánica, limón real, menta fresca y azúcar de caña.',price:65,badge:'',img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80&auto=format&fit=crop'},
+  {id:10,cat:'bebidas',name:'Mezcal Sour de tamarindo',desc:'Mezcal joven, tamarindo artesanal, limón y sal de gusano.',price:175,badge:'popular',img:'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80&auto=format&fit=crop'},
+];
+let nextId=100,activeTab='entradas';
+let ADMIN_PW='maison2025',authed=false;
+
+function getBadge(b){
+  if(!b)return '';
+  const labels={chef:'Del Chef',nuevo:'Nuevo',popular:'Popular'};
+  return `<div class="dish-badge">${labels[b]||b}</div>`;
+}
+
+function renderMenu(){
+  const list=document.getElementById('menu-list');
+  list.innerHTML='';
+  dishes.filter(d=>d.cat===activeTab).forEach(d=>{
+    const row=document.createElement('div');row.className='dish-row';
+    row.innerHTML=`
+      <div class="dish-img"><img src="${d.img}" alt="${d.name}" loading="lazy"></div>
+      <div class="dish-info">
+        ${getBadge(d.badge)}
+        <div class="dish-name">${d.name}</div>
+        <div class="dish-desc">${d.desc}</div>
+      </div>
+      <div class="dish-price">
+        <div class="dish-price-val">$${d.price}</div>
+        <div class="dish-price-unit">MXN</div>
+      </div>`;
+    list.appendChild(row);
+  });
+}
+
+function switchTab(cat,btn){
+  activeTab=cat;
+  document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu();
+}
+renderMenu();
+
+/* ADMIN */
+function openAdmin(){document.getElementById('modal-over').classList.add('open');if(!authed){document.getElementById('pw-screen').style.display='block';document.getElementById('admin-panel').style.display='none';document.getElementById('pw-inp').value='';document.getElementById('pw-err').style.display='none';}}
+function closeAdmin(){document.getElementById('modal-over').classList.remove('open');}
+
+function checkPw(){
+  const v=document.getElementById('pw-inp').value,err=document.getElementById('pw-err');
+  if(v===ADMIN_PW){authed=true;document.getElementById('pw-screen').style.display='none';document.getElementById('admin-panel').style.display='block';renderList();}
+  else{err.textContent='Contraseña incorrecta';err.style.display='block';document.getElementById('pw-inp').value='';}
+}
+
+function aTab(name,btn){
+  document.querySelectorAll('.a-tab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.a-sec').forEach(s=>s.classList.remove('active'));
+  const s=document.getElementById('tab-'+name);if(s)s.classList.add('active');
+  if(name==='list')renderList();
+}
+
+function pImg(input,prevId){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const p=document.getElementById(prevId);
+    p.querySelectorAll('img').forEach(i=>i.remove());
+    const img=document.createElement('img');img.src=e.target.result;p.appendChild(img);
+    p.dataset.img=e.target.result;
+  };
+  r.readAsDataURL(f);
+}
+
+function addDish(){
+  const n=document.getElementById('add-n').value.trim(),p=parseFloat(document.getElementById('add-p').value);
+  if(!n||!p){showToast('⚠️ Nombre y precio requeridos');return;}
+  const imgData=document.getElementById('add-ip').dataset.img||'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80&auto=format&fit=crop';
+  dishes.push({id:nextId++,cat:document.getElementById('add-c').value,name:n,desc:document.getElementById('add-d').value,price:p,badge:document.getElementById('add-b').value,img:imgData});
+  renderMenu();
+  ['add-n','add-d','add-p'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('add-b').value='';
+  const ip=document.getElementById('add-ip');ip.querySelectorAll('img').forEach(i=>i.remove());delete ip.dataset.img;
+  showToast('✓ Platillo agregado');closeAdmin();
+}
+
+function renderList(){
+  const list=document.getElementById('dish-list');list.innerHTML='';
+  dishes.forEach(d=>{
+    const div=document.createElement('div');div.className='irow';
+    div.innerHTML=`<div class="irow-img"><img src="${d.img}" alt="${d.name}"></div>
+      <div class="irow-info"><strong>${d.name}</strong><span>$${d.price} · ${d.cat}</span></div>
+      <div class="rb"><button class="be" onclick="openEdit(${d.id})">Editar</button></div>`;
+    list.appendChild(div);
+  });
+}
+
+function openEdit(id){
+  const d=dishes.find(x=>x.id===id);if(!d)return;
+  document.getElementById('edit-id').value=id;
+  document.getElementById('edit-n').value=d.name;
+  document.getElementById('edit-c').value=d.cat;
+  document.getElementById('edit-d').value=d.desc;
+  document.getElementById('edit-p').value=d.price;
+  document.getElementById('edit-b').value=d.badge||'';
+  const ip=document.getElementById('edit-ip');
+  ip.querySelectorAll('img').forEach(i=>i.remove());
+  const img=document.createElement('img');img.src=d.img;ip.appendChild(img);ip.dataset.img=d.img;
+  aTab('edit',null);
+}
+
+function saveDish(){
+  const id=parseInt(document.getElementById('edit-id').value);
+  const idx=dishes.findIndex(x=>x.id===id);if(idx<0)return;
+  const imgData=document.getElementById('edit-ip').dataset.img||dishes[idx].img;
+  dishes[idx]={...dishes[idx],name:document.getElementById('edit-n').value,cat:document.getElementById('edit-c').value,desc:document.getElementById('edit-d').value,price:parseFloat(document.getElementById('edit-p').value),badge:document.getElementById('edit-b').value,img:imgData};
+  renderMenu();showToast('✓ Platillo actualizado');aTab('list',document.querySelectorAll('.a-tab')[1]);
+}
+
+function delDish(){
+  const id=parseInt(document.getElementById('edit-id').value);
+  if(!confirm('¿Eliminar este platillo?'))return;
+  dishes=dishes.filter(x=>x.id!==id);
+  renderMenu();showToast('Platillo eliminado');aTab('list',document.querySelectorAll('.a-tab')[1]);
+}
+
+function changePw(){
+  const cur=document.getElementById('p-cur').value,nw=document.getElementById('p-new').value,con=document.getElementById('p-con').value,err=document.getElementById('p-err');
+  if(cur!==ADMIN_PW){err.textContent='Contraseña actual incorrecta';err.style.display='block';return;}
+  if(nw.length<4){err.textContent='Mínimo 4 caracteres';err.style.display='block';return;}
+  if(nw!==con){err.textContent='Las contraseñas no coinciden';err.style.display='block';return;}
+  ADMIN_PW=nw;err.style.display='none';['p-cur','p-new','p-con'].forEach(id=>document.getElementById(id).value='');
+  showToast('✓ Contraseña actualizada');
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+</script>
+</body>
+</html>
